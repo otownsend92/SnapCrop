@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.cs291a.snapcrop.MainActivity$PlaceholderFragment">
+    tools:context="com.cs291a.snapcrop.PlaceholderFragment">
 
     <TextView
         android:id="@+id/section_label"
