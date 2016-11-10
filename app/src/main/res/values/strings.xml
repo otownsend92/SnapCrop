@@ -1,5 +1,18 @@
 <resources>
     <string name="app_name">SnapCrop</string>
     <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- Section 1 fragment -->
+    <string name="section_1_instructions">Choose from Gallery, or take a new photo...</string>
+    <string name="load_from_gallery_button_text">Load from Gallery</string>
+    <string name="take_picture_button_text">Take Picture</string>
+
+    <!-- Section 2 fragment -->
+    <string name="section_2_instructions">Set the desired aspect ratio for the new image...</string>
+    <string name="width">Width: </string>
+    <string name="height">Height: </string>
+
+    <!-- Section 3 fragment -->
+    <string name="section_3_instructions">Your new picture!</string>
+
 </resources>

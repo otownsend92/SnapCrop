@@ -17,8 +17,10 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
-        // Return a PlaceholderFragment (defined as a static inner class below).
+
         if (position == 0) return PictureSelectFragment.newInstance();
+        else if (position == 1) return AspectRatioFragment.newInstance();
+
         else return PlaceholderFragment.newInstance(position + 1);
     }
 
@@ -32,11 +34,11 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Select picture!";
+                return "Select Picture";
             case 1:
                 return "Aspect Ratio";
             case 2:
-                return "Result!";
+                return "Result";
         }
         return null;
     }

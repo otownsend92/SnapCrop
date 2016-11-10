@@ -9,8 +9,10 @@
     tools:context="com.cs291a.snapcrop.PlaceholderFragment">
 
     <TextView
-        android:id="@+id/section_label"
+        android:id="@+id/section_label_2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/section_3_instructions"
+        android:textSize="@dimen/section_instructions"/>
 
 </RelativeLayout>

@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -30,7 +29,6 @@ public class PictureSelectFragment extends Fragment {
     private final String TAG = "PictureSelectFragment";
     private final int PICK_IMAGE_REQUEST = 1;
     private final int REQUEST_IMAGE_CAPTURE = 2;
-    private String _path;
     private Uri mImageUri;
 
 
@@ -43,16 +41,12 @@ public class PictureSelectFragment extends Fragment {
      */
     public static PictureSelectFragment newInstance() {
         PictureSelectFragment fragment = new PictureSelectFragment();
-        Bundle args = new Bundle();
         return fragment;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_select_picture, container, false);
-        TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-        textView.setText("Choose from gallery, or take a new photo");
 
         final Button loadGalleryButton = (Button) rootView.findViewById(R.id.load_from_gallery_button);
         loadGalleryButton.setOnClickListener(new View.OnClickListener() {
@@ -91,16 +85,14 @@ public class PictureSelectFragment extends Fragment {
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             // Create the File where the photo should go
-            File photoFile = null;
-            photoFile = getOutputMediaFile();
+            File photoFile = getOutputMediaFile();
 
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(getActivity(),
+                mImageUri = FileProvider.getUriForFile(getActivity(),
                         "com.cs291a.snapcrop.fileprovider",
                         photoFile);
-                mImageUri = photoURI;
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         }
@@ -109,14 +101,17 @@ public class PictureSelectFragment extends Fragment {
 
     private File getOutputMediaFile() {
         // Create an image file name
-        Long timeStamp = System.currentTimeMillis()/1000;
+        Long timeStamp = System.currentTimeMillis() / 1000;
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = null;
-        try { image = File.createTempFile(imageFileName, ".jpg", storageDir );
-        } catch (Exception e) { Log.e(TAG, "Couldn't store file"); return null; }
 
-        _path = "file:" + image.getAbsolutePath();
+        try {
+            image = File.createTempFile(imageFileName, ".jpg", storageDir);
+        } catch (Exception e) {
+            Log.e(TAG, "Couldn't store file");
+        }
+
         return image;
     }
 
@@ -127,32 +122,42 @@ public class PictureSelectFragment extends Fragment {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
 
             Uri uri = data.getData();
+            populateFromGallery(uri);
 
-            try {
-                Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
-                Log.e(TAG, String.valueOf(imageBitmap));
-
-                ImageView imageView = (ImageView) getActivity().findViewById(R.id.chosen_image_view);
-                imageView.setImageBitmap(imageBitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+            populateFromCamera();
+        }
+    }
 
-            getActivity().getContentResolver().notifyChange(mImageUri, null);
-            ContentResolver cr = getActivity().getContentResolver();
-            Bitmap bitmap;
-            try
-            {
-                bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, mImageUri);
-                ImageView imageView = (ImageView) getActivity().findViewById(R.id.chosen_image_view);
-                imageView.setImageBitmap(bitmap);
-            }
-            catch (Exception e)
-            {
-                Toast.makeText(getContext(), "Failed to load", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "Failed to load", e);
-            }
+    private void populateFromGallery(Uri uri) {
+        try {
+            Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+            Log.e(TAG, String.valueOf(imageBitmap));
+
+            ImageView imageView = (ImageView) getActivity().findViewById(R.id.chosen_image_view);
+            imageView.setImageBitmap(imageBitmap);
+        } catch (IOException e) {
+            Toast.makeText(getContext(), "Failed to load image", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "Failed to load image", e);
+            e.printStackTrace();
+        }
+    }
+
+    private void populateFromCamera() {
+        getActivity().getContentResolver().notifyChange(mImageUri, null);
+        ContentResolver cr = getActivity().getContentResolver();
+        Bitmap bitmap;
+        try
+        {
+            bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, mImageUri);
+            ImageView imageView = (ImageView) getActivity().findViewById(R.id.chosen_image_view);
+            imageView.setImageBitmap(bitmap);
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getContext(), "Failed to capture image", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "Failed to capture image", e);
+            e.printStackTrace();
         }
     }
 

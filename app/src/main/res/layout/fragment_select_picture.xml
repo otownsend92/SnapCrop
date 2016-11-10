@@ -11,20 +11,23 @@
     <TextView
         android:id="@+id/section_label"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:text="@string/section_1_instructions"
+        android:textSize="@dimen/section_instructions"/>
 
     <Button
         android:id="@+id/load_from_gallery_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Load from Gallery"
+        android:text="@string/load_from_gallery_button_text"
         android:layout_below="@id/section_label"/>
 
     <Button
         android:id="@+id/take_picture_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Take Picture"
+        android:text="@string/take_picture_button_text"
         android:layout_below="@id/section_label"
         android:layout_toRightOf="@+id/load_from_gallery_button"/>
 
