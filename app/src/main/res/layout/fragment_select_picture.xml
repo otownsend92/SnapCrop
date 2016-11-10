@@ -30,8 +30,8 @@
 
     <ImageView
         android:id="@+id/chosen_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
         android:paddingTop="10dp"

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,17 +87,37 @@ public class PictureSelectFragment extends Fragment {
     }
 
     private void dispatchTakePictureIntent() {
-        _path = Environment.getExternalStorageDirectory() + File.separator +  "retarget_image.jpg";
-        File file = new File( _path );
-        mImageUri = Uri.fromFile( file );
-
-        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE );
-        intent.putExtra( MediaStore.EXTRA_OUTPUT, mImageUri );
-
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            // Create the File where the photo should go
+            File photoFile = null;
+            photoFile = getOutputMediaFile();
+
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(getActivity(),
+                        "com.cs291a.snapcrop.fileprovider",
+                        photoFile);
+                mImageUri = photoURI;
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
         }
+    }
+
+
+    private File getOutputMediaFile() {
+        // Create an image file name
+        Long timeStamp = System.currentTimeMillis()/1000;
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = null;
+        try { image = File.createTempFile(imageFileName, ".jpg", storageDir );
+        } catch (Exception e) { Log.e(TAG, "Couldn't store file"); return null; }
+
+        _path = "file:" + image.getAbsolutePath();
+        return image;
     }
 
     @Override
@@ -117,6 +138,7 @@ public class PictureSelectFragment extends Fragment {
                 e.printStackTrace();
             }
         } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+
             getActivity().getContentResolver().notifyChange(mImageUri, null);
             ContentResolver cr = getActivity().getContentResolver();
             Bitmap bitmap;
