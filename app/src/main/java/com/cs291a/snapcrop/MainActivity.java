@@ -6,9 +6,16 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,10 +50,57 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 int tab = mViewPager.getCurrentItem();
-                if (tab < 2) mViewPager.setCurrentItem(tab+1);
+                Log.e(TAG, "Currently in tab " + tab);
+
+                if (tab == 0) mViewPager.setCurrentItem(tab+1);
+                else if (tab == 1) {
+                    Log.e(TAG, "In tab 1, trying to get new aspect ratio");
+                    String aspectW = ((EditText) findViewById(R.id.aspect_width_value)).getText().toString();
+                    String aspectH = ((EditText) findViewById(R.id.aspect_height_value)).getText().toString();
+                    Log.e(TAG, "aspectW " + aspectW);
+                    Log.e(TAG, "aspectH " + aspectH);
+
+                    ImageRetarget.retargetImage(Integer.parseInt(aspectW), Integer.parseInt(aspectH));
+                    ImageView imageView = (ImageView) findViewById(R.id.result_image_view);
+
+                    if (ImageRetarget.globalNewImg != null) {
+                        Log.e(TAG, "Setting the new globalNewImage!");
+                        imageView.setImageBitmap(ImageRetarget.globalNewImg);
+                    } else {
+                        Log.e(TAG, "globalNewImage is null!");
+                    }
+
+                    mViewPager.setCurrentItem(tab+1);
+                }
             }
         });
 
+    }
+
+    // Rendre OPEN CV utilisable
+    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
+        @Override
+        public void onManagerConnected(int status) {
+            switch (status) {
+                case LoaderCallbackInterface.SUCCESS:
+                {
+                    Log.i("OpenCVManager setup", "OpenCV loaded successfully");
+
+                } break;
+                default:
+                {
+                    super.onManagerConnected(status);
+                } break;
+            }
+        }
+    };
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_9, this,
+                mLoaderCallback);
     }
 
 

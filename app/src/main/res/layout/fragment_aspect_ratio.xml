@@ -31,6 +31,7 @@
             android:paddingTop="20dp"/>
 
         <EditText
+            android:id="@+id/aspect_width_value"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:inputType="number" />
@@ -52,6 +53,7 @@
             android:paddingTop="@dimen/fab_margin"/>
 
         <EditText
+            android:id="@+id/aspect_height_value"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:inputType="number" />

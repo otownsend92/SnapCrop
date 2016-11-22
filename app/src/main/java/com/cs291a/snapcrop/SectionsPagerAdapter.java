@@ -20,6 +20,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         if (position == 0) return PictureSelectFragment.newInstance();
         else if (position == 1) return AspectRatioFragment.newInstance();
+        else if (position == 2) return ResultImageFragment.newInstance();
 
         else return PlaceholderFragment.newInstance(position + 1);
     }

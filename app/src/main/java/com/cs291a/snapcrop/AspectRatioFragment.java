@@ -10,6 +10,10 @@ import android.view.ViewGroup;
  * Created by olivertownsend on 11/9/16.
  */
 public class AspectRatioFragment extends Fragment {
+
+    public static int newH;
+    public static int newW;
+
     public AspectRatioFragment() {
     }
 
@@ -25,8 +29,6 @@ public class AspectRatioFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_aspect_ratio, container, false);
-
-
 
         return rootView;
     }

@@ -31,6 +31,8 @@ public class PictureSelectFragment extends Fragment {
     private final int REQUEST_IMAGE_CAPTURE = 2;
     private Uri mImageUri;
 
+    public static Bitmap globalBitmap;
+
 
     public PictureSelectFragment() {
     }
@@ -136,6 +138,15 @@ public class PictureSelectFragment extends Fragment {
 
             ImageView imageView = (ImageView) getActivity().findViewById(R.id.chosen_image_view);
             imageView.setImageBitmap(imageBitmap);
+
+            globalBitmap = imageBitmap;
+
+            Log.e(TAG, "IMAGE INFO\n  imageBitmap width " + imageBitmap.getWidth() +
+                    "\n  imageBitmap height " + imageBitmap.getHeight() +
+                    "\n  imageView width " + imageView.getWidth() +
+                    "\n  imageView height " + imageView.getHeight());
+
+
         } catch (IOException e) {
             Toast.makeText(getContext(), "Failed to load image", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "Failed to load image", e);
