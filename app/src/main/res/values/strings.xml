@@ -4,8 +4,9 @@
 
     <!-- Section 1 fragment -->
     <string name="section_1_instructions">Choose from Gallery, or take a new photo...</string>
-    <string name="load_from_gallery_button_text">Load from Gallery</string>
+    <string name="load_from_gallery_button_text">From Gallery</string>
     <string name="take_picture_button_text">Take Picture</string>
+    <string name="draw_button_text">Mark</string>
 
     <!-- Section 2 fragment -->
     <string name="section_2_instructions">Set the desired aspect ratio for the new image...</string>

@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,6 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context="com.cs291a.snapcrop.PictureSelectFragment">
 
     <TextView
@@ -16,43 +17,81 @@
         android:text="@string/section_1_instructions"
         android:textSize="@dimen/section_instructions"/>
 
-    <Button
-        android:id="@+id/load_from_gallery_button"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/load_from_gallery_button_text"
-        android:layout_below="@id/section_label"/>
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/take_picture_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/take_picture_button_text"
-        android:layout_below="@id/section_label"
-        android:layout_toRightOf="@+id/load_from_gallery_button"/>
+        <Button
+            android:id="@+id/load_from_gallery_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/load_from_gallery_button_text"/>
 
-    <!--<ScrollView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_below="@+id/load_from_gallery_button" >-->
+        <Button
+            android:id="@+id/take_picture_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/take_picture_button_text" />
+
+        <ToggleButton
+            android:id="@+id/draw_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOn="Drawing On"
+            android:textOff="Drawing Off"/>
+
+    </LinearLayout>
+
+
+
+    <RelativeLayout
+        android:id="@+id/canvas_relative_layout"
+        android:background="@color/colorAccent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
         <ImageView
             android:id="@+id/chosen_image_view"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:layout_below="@+id/load_from_gallery_button"
+        />
+    </RelativeLayout>
 
-            />
+        <!--<ImageView-->
+            <!--android:id="@+id/chosen_image_view"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:adjustViewBounds="true"-->
+            <!--android:scaleType="fitCenter"-->
+            <!--android:paddingTop="10dp"-->
+            <!--android:paddingBottom="10dp"-->
+            <!--android:layout_below="@+id/load_from_gallery_button"-->
+            <!--/>-->
 
-    <!--</ScrollView>-->
+
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/image_linear_layout"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_below="@+id/load_from_gallery_button" >-->
+
+        <!---->
+
+        <!--<LinearLayout-->
+            <!--android:id="@+id/view_drawing_pad"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" >-->
+        <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->
 
 
 
 
 
-
-</RelativeLayout>
+</LinearLayout>
